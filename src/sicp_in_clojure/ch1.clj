@@ -122,3 +122,18 @@ size
   (sqrt-iter 1.0 x))
 
 (sqrt 9)
+
+;; 1.1.8  Procedures as Black-Box Abstractions
+
+(defn sqrt [x]
+  (let [good-enough? (fn [guess]
+                       (< (Math/abs (- (* guess guess) x)) 0.001))
+        improve      (fn [guess]
+                       (average guess (/ x guess)))
+        sqrt-iter    (fn [guess]
+                       (if (good-enough? guess)
+                         guess
+                         (recur (improve guess))))]
+    (sqrt-iter 1.0)))
+
+(sqrt 2)

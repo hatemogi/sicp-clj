@@ -107,7 +107,7 @@ size
   (/ (+ x y) 2))
 
 (defn good-enough? [guess x]
-  (< (Math/abs (- (* guess guess) x))
+  (< (Math/abs (- (square guess) x))
      0.001))
 
 (defn improve [guess x]
@@ -127,7 +127,7 @@ size
 
 (defn sqrt [x]
   (let [good-enough? (fn [guess]
-                       (< (Math/abs (- (* guess guess) x)) 0.001))
+                       (< (Math/abs (- (square guess) x)) 0.001))
         improve      (fn [guess]
                        (average guess (/ x guess)))
         sqrt-iter    (fn [guess]
@@ -137,3 +137,48 @@ size
     (sqrt-iter 1.0)))
 
 (sqrt 2)
+
+;; 1.2.1  Linear Recursion and Iteration
+
+(defn factorial [n]
+  (if (= n 1)
+    1
+    (* n (factorial (- n 1)))))
+
+;; linear recursive process
+
+(factorial 6)
+
+(defn fact-iter [product counter max-count]
+  (if (> counter max-count)
+    product
+    (fact-iter (* counter product)
+               (+ counter 1)
+               max-count)))
+
+(defn factorial [n]
+  (fact-iter 1 1 n))
+
+;; linear iterative process
+
+(factorial 6)
+
+;; 1.2.2  Tree Recursion
+
+(defn fib [n]
+  (cond
+    (= n 0) 0
+    (= n 1) 1
+    :else   (+ (fib (- n 1))
+               (fib (- n 2)))))
+
+
+(defn fib-iter [a b count]
+  (if (= count 0)
+    b
+    (recur (+ a b) a (- count 1))))
+
+(defn fib [n]
+  (fib-iter 1 0 n))
+
+(fib 5)

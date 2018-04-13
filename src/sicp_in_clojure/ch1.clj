@@ -100,3 +100,25 @@ size
          (< a b) b
          :else -1)
    (+ a 1))
+
+;; 1.1.7  Example: Square Roots by Newton's Method
+
+(defn average [x y]
+  (/ (+ x y) 2))
+
+(defn good-enough? [guess x]
+  (< (Math/abs (- (* guess guess) x))
+     0.001))
+
+(defn improve [guess x]
+  (average guess (/ x guess)))
+
+(defn sqrt-iter [guess x]
+  (if (good-enough? guess x)
+    guess
+    (recur (improve guess x) x)))
+
+(defn sqrt [x]
+  (sqrt-iter 1.0 x))
+
+(sqrt 9)
